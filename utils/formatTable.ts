@@ -46,7 +46,6 @@ export default (data: DataType[]) => {
     }
     tableDate.datasets.push(TableRow)
   })
-  console.log('date log :', tableDate.datasets)
   tableDate.datasets
     .sort((a, b) => dayjs(a.公表日).unix() - dayjs(b.公表日).unix())
     .reverse()
