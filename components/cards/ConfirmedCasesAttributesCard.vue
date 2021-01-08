@@ -46,14 +46,12 @@ export default {
 
     // 陽性患者の属性 ヘッダー翻訳
     for (const header of patientsTable.headers) {
-      header.text =
-        header.value === '退院' ? this.$t('退院※') : this.$t(header.value)
+      header.text = this.$t(header.value)
     }
     // 陽性患者の属性 中身の翻訳
     for (const row of patientsTable.datasets) {
       row['居住地'] = this.getTranslatedWording(row['居住地'])
       row['性別'] = this.getTranslatedWording(row['性別'])
-      row['退院'] = this.getTranslatedWording(row['退院'])
 
       if (row['年代'].substr(-1, 1) === '代') {
         const age = row['年代'].substring(0, 2)
