@@ -20,12 +20,27 @@
         <slot />
       </div>
       <div v-if="this.$slots.dataTable" class="DataView-Details">
-        <details v-if="showDetails">
-          <summary class="DataView-DetailsSummary" @click="toggleDetails">{{
-            $t('テーブルを表示')
-          }}</summary>
-          <slot name="dataTable" />
-        </details>
+        <v-expansion-panels v-if="showDetails" flat>
+          <v-expansion-panel>
+            <v-expansion-panel-header
+              :hide-actions="true"
+              :style="{ transition: 'none' }"
+              @click="toggleDetails"
+            >
+              <template slot:actions>
+                <div class="v-expansion-panel-header__icon">
+                  <v-icon left>mdi-chevron-right</v-icon>
+                </div>
+              </template>
+              <span class="expansion-panel-text">
+                {{ $t('テーブルを表示') }}
+              </span>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <slot name="dataTable" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <template v-else>
           <slot name="dataTable" />
         </template>
@@ -37,130 +52,21 @@
         <div class="Footer-Left">
           <slot name="footer" />
           <div>
-            <a class="Permalink" :href="permalink()">
+            <p class="Permalink">
               <time :datetime="formattedDate">
                 {{ $t('{date} 更新', { date }) }}
               </time>
-            </a>
-          </div>
-        </div>
-
-        <div v-if="this.$route.query.embed != 'true'" class="Footer-Right">
-          <button class="DataView-Share-Opener" @click="toggleShareMenu">
-            <svg
-              width="14"
-              height="16"
-              viewBox="0 0 14 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              :aria-label="$t('{title}のグラフをシェア', { title })"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M7.59999 3.5H9.5L7 0.5L4.5 3.5H6.39999V11H7.59999V3.5ZM8.5 5.75H11.5C11.9142 5.75 12.25 6.08579 12.25 6.5V13.5C12.25 13.9142 11.9142 14.25 11.5 14.25H2.5C2.08579 14.25 1.75 13.9142 1.75 13.5V6.5C1.75 6.08579 2.08579 5.75 2.5 5.75H5.5V4.5H2.5C1.39543 4.5 0.5 5.39543 0.5 6.5V13.5C0.5 14.6046 1.39543 15.5 2.5 15.5H11.5C12.6046 15.5 13.5 14.6046 13.5 13.5V6.5C13.5 5.39543 12.6046 4.5 11.5 4.5H8.5V5.75Z"
-                fill="#808080"
-              />
-            </svg>
-          </button>
-          <div
-            v-if="displayShare"
-            class="DataView-Share-Buttons py-2"
-            @click="stopClosingShareMenu"
-          >
-            <div class="Close-Button">
-              <v-icon :aria-label="$t('閉じる')" @click="closeShareMenu">
-                mdi-close
-              </v-icon>
-            </div>
-
-            <h4>{{ $t('埋め込み用コード') }}</h4>
-
-            <div class="EmbedCode">
-              <v-icon
-                v-if="isCopyAvailable()"
-                class="EmbedCode-Copy"
-                :aria-label="$t('クリップボードにコピー')"
-                @click="copyEmbedCode"
-              >
-                mdi-clipboard-outline
-              </v-icon>
-              {{ graphEmbedValue }}
-            </div>
-
-            <div class="Buttons">
-              <button
-                :aria-label="$t('LINEで{title}のグラフをシェア', { title })"
-                @click="line"
-              >
-                <picture>
-                  <source
-                    srcset="/line.webp"
-                    type="image/webp"
-                    class="icon-resize line"
-                  />
-                  <img src="/line.png" alt="LINE" class="icon-resize line" />
-                </picture>
-              </button>
-
-              <button
-                :aria-label="$t('Twitterで{title}のグラフをシェア', { title })"
-                @click="twitter"
-              >
-                <picture>
-                  <source
-                    srcset="/twitter.webp"
-                    type="image/webp"
-                    class="icon-resize twitter"
-                  />
-                  <img
-                    src="/twitter.png"
-                    alt="Twitter"
-                    class="icon-resize twitter"
-                  />
-                </picture>
-              </button>
-
-              <button
-                :aria-label="$t('facebookで{title}のグラフをシェア', { title })"
-                @click="facebook"
-              >
-                <picture>
-                  <source
-                    srcset="/facebook.webp"
-                    type="image/webp"
-                    class="icon-resize facebook"
-                  />
-                  <img
-                    src="/facebook.png"
-                    alt="facebook"
-                    class="icon-resize facebook"
-                  />
-                </picture>
-              </button>
-            </div>
+            </p>
           </div>
         </div>
       </div>
-    </div>
-
-    <div v-if="showOverlay" class="overlay">
-      <div class="overlay-text">
-        {{ $t('埋め込み用コードをコピーしました') }}
-      </div>
-      <v-footer class="DataView-Footer">
-        <time :datetime="date">{{ $t('{date} 更新', { date }) }}</time>
-        <slot name="footer" />
-      </v-footer>
     </div>
   </v-card>
 </template>
-
 <script lang="ts">
 import Vue from 'vue'
 import { convertDatetimeToISO8601Format } from '@/utils/formatDate'
-
+import { EventBus, TOGGLE_EVENT } from '@/utils/card-event-bus'
 export default Vue.extend({
   props: {
     title: {
@@ -183,140 +89,26 @@ export default Vue.extend({
   },
   data() {
     return {
-      openGraphEmbed: false,
-      displayShare: false,
-      showOverlay: false,
-      showDetails: false
+      showDetails: false,
+      openDetails: false
     }
   },
   computed: {
     formattedDate(): string {
       return convertDatetimeToISO8601Format(this.date)
     },
-    graphEmbedValue(): string {
-      const graphEmbedValue =
-        '<iframe width="560" height="315" src="' +
-        this.permalink(true, true) +
-        '" frameborder="0"></iframe>'
-      return graphEmbedValue
-    },
-    cardElements() {
-      const parent = document.querySelector('.row.DataBlock') as HTMLElement
-      const thisCard = this.$el.closest('.DataCard')
-      const index = Array.prototype.indexOf.call(parent.children, thisCard) + 1
-      const sideIndex = index % 2 === 0 ? index - 1 : index + 1
-
-      const self = document.querySelector(
-        `.DataCard:nth-child(${index}`
-      ) as HTMLElement
-      const side = document.querySelector(`.DataCard:nth-child(${sideIndex}
-      `) as HTMLElement
-      return [self, side]
+    permalink(): string {
+      const permalink = '/cards/' + this.titleId
+      return this.localePath(permalink)
     }
   },
-  watch: {
-    displayShare(isShow: boolean) {
-      if (isShow) {
-        document.documentElement.addEventListener('click', this.toggleShareMenu)
-      } else {
-        document.documentElement.removeEventListener(
-          'click',
-          this.toggleShareMenu
-        )
-      }
-    }
-  },
-  mounted() {
+  beforeUpdate() {
     this.showDetails = true
-    window.addEventListener('resize', this.handleCardHeight)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleCardHeight)
   },
   methods: {
-    toggleShareMenu(e: Event) {
-      e.stopPropagation()
-      this.displayShare = !this.displayShare
-    },
-    closeShareMenu() {
-      this.displayShare = false
-    },
-    isCopyAvailable() {
-      return !!navigator.clipboard
-    },
-    copyEmbedCode() {
-      const self = this
-      navigator.clipboard.writeText(this.graphEmbedValue).then(() => {
-        self.closeShareMenu()
-
-        self.showOverlay = true
-        setTimeout(() => {
-          self.showOverlay = false
-        }, 2000)
-      })
-    },
-    stopClosingShareMenu(e: Event) {
-      e.stopPropagation()
-    },
-    permalink(host: boolean = false, embed: boolean = false) {
-      let permalink = '/cards/' + this.titleId
-      if (embed) {
-        permalink = permalink + '?embed=true'
-      }
-      permalink = this.localePath(permalink)
-
-      if (host) {
-        permalink = location.protocol + '//' + location.host + permalink
-      }
-      return permalink
-    },
-    twitter() {
-      const url =
-        'https://twitter.com/intent/tweet?text=' +
-        this.title +
-        ' / ' +
-        this.$t('東京都') +
-        this.$t('新型コロナウイルス感染症') +
-        this.$t('対策サイト') +
-        '&url=' +
-        this.permalink(true) +
-        '&' +
-        'hashtags=StopCovid19JP'
-      window.open(url)
-    },
-    facebook() {
-      const url =
-        'https://www.facebook.com/sharer.php?u=' + this.permalink(true)
-      window.open(url)
-    },
-    line() {
-      const url =
-        'https://social-plugins.line.me/lineit/share?url=' +
-        this.permalink(true)
-      window.open(url)
-    },
-    handleCardHeight() {
-      const [self, side] = this.cardElements
-      if (self) {
-        self.style.height = ''
-        self.dataset.height = String(self.offsetHeight)
-      }
-      if (side) {
-        side.style.height = ''
-        side.dataset.height = String(side.offsetHeight)
-      }
-    },
     toggleDetails() {
-      // アコーディオン開閉時にcardの高さを維持する
-      const [self, side] = this.cardElements
-
-      self.dataset.height = self.dataset.height || String(self.offsetHeight)
-      side.dataset.height = side.dataset.height || String(side.offsetHeight)
-
-      self.style.height =
-        self.style.height === `auto` ? `${self.dataset.height}px` : 'auto'
-      side.style.height =
-        side.style.height === 'auto' ? 'auto' : `${side.dataset.height}px`
+      this.openDetails = !this.openDetails
+      EventBus.$emit(TOGGLE_EVENT, { dataView: this.$refs.dataView })
     }
   }
 })

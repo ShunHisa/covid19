@@ -104,7 +104,7 @@ export default Vue.extend({
       link: [
         {
           rel: 'canonical',
-          href: `https://stopcovid19.metro.tokyo.lg.jp${this.$route.path}`
+          href: `https://stopcovid19-kitakyushu.jp${this.$route.path}`
         },
         {
           rel: 'stylesheet',
@@ -115,7 +115,7 @@ export default Vue.extend({
         {
           hid: 'author',
           name: 'author',
-          content: this.$tc('東京都')
+          content: '北九州市'
         },
         {
           hid: 'description',
@@ -123,35 +123,25 @@ export default Vue.extend({
           content:
             convertDateToSimpleFormat(Data.lastUpdate) +
             ' 更新：　' +
-            this.$tc(
-              '当サイトは新型コロナウイルス感染症 (COVID-19) に関する最新情報を提供するために、東京都が開設したものです。'
-            )
+            '当サイトは新型コロナウイルス感染症 (COVID-19) に関する最新情報を提供するために、北九州市が開設したものです。'
         },
         {
           hid: 'og:site_name',
           property: 'og:site_name',
           content:
-            this.$t('東京都') +
-            ' ' +
-            this.$t('新型コロナウイルス感染症') +
-            ' ' +
-            this.$t('対策サイト')
+            '北九州市' + ' ' + '新型コロナウイルス感染症' + ' ' + '情報サイト'
         },
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `https://stopcovid19.metro.tokyo.lg.jp${this.$route.path}`
+          content: `https://stopcovid19-kitakyushu.jp${this.$route.path}`
         },
         ogLocale,
         {
           hid: 'og:title',
           property: 'og:title',
           content:
-            this.$t('東京都') +
-            ' ' +
-            this.$t('新型コロナウイルス感染症') +
-            ' ' +
-            this.$t('対策サイト')
+            '北九州市' + ' ' + '新型コロナウイルス感染症' + ' ' + '情報サイト'
         },
         {
           hid: 'og:description',
@@ -159,9 +149,7 @@ export default Vue.extend({
           content:
             convertDateToSimpleFormat(Data.lastUpdate) +
             ' 更新：　' +
-            this.$tc(
-              '当サイトは新型コロナウイルス感染症 (COVID-19) に関する最新情報を提供するために、東京都が開設したものです。'
-            )
+            '当サイトは新型コロナウイルス感染症 (COVID-19) に関する最新情報を提供するために、北九州市が開設したものです。'
         },
         {
           hid: 'og:image',
@@ -172,11 +160,7 @@ export default Vue.extend({
           hid: 'apple-mobile-web-app-title',
           name: 'apple-mobile-web-app-title',
           content:
-            this.$t('東京都') +
-            ' ' +
-            this.$t('新型コロナウイルス感染症') +
-            ' ' +
-            this.$t('対策サイト')
+            '北九州市' + ' ' + '新型コロナウイルス感染症' + ' ' + '情報サイト'
         },
         {
           hid: 'twitter:image',

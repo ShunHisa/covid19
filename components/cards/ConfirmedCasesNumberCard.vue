@@ -8,17 +8,15 @@
       :date="Data.patients.date"
       :unit="$t('人')"
       :url="
-        'https://ckan.open-governmentdata.org/dataset/401005_kitakyushu_covid19_test_count'
+        'https://ckan.open-governmentdata.org/dataset/401005_kitakyushu_covid19_patients'
       "
-    >
-      <template v-slot:description />
-    </time-bar-chart>
+    />
   </v-col>
 </template>
 
 <script>
+import formatGraphForPatients from '@/utils/formatGraphForPatients'
 import Data from '@/data/data.json'
-import formatGraph from '@/utils/formatGraph'
 import TimeBarChart from '@/components/TimeBarChart.vue'
 
 export default {
@@ -27,7 +25,7 @@ export default {
   },
   data() {
     // 感染者数グラフ
-    const patientsGraph = formatGraph(Data.patients_summary.data)
+    const patientsGraph = formatGraphForPatients(Data.patients_summary.data)
 
     const data = {
       Data,

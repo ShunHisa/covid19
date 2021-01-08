@@ -15,15 +15,42 @@ const config: Configuration = {
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#'
     },
-    titleTemplate: '%s | 北九州市 新型コロナウイルス感染症対策サイト',
+    titleTemplate: '%s | 北九州市 新型コロナウイルス感染症情報サイト',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、北九州市のオープンデータを活用しています。'
+      },
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: '北九州市 新型コロナウイルス感染症ポータルサイト'
+      },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       {
         hid: 'og:url',
         property: 'og:url',
-        content: 'https://stopcovid19.metro.kitakyusyu.jp'
+        content: 'https://stopcovid19-kitakyushu.jp/'
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: '北九州市 新型コロナウイルス感染症ポータルサイト'
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content:
+          '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、北九州市のオープンデータを活用しています。'
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://stopcovid19-kitakyushu.jp/ogp.png'
       },
       {
         hid: 'twitter:card',
@@ -33,22 +60,17 @@ const config: Configuration = {
       {
         hid: 'twitter:site',
         name: 'twitter:site',
-        content: '@tokyo_bousai'
+        content: '@city_kitakyushu'
       },
       {
         hid: 'twitter:creator',
         name: 'twitter:creator',
-        content: '@tokyo_bousai'
+        content: '@city_kitakyushu'
       },
       {
-        hid: 'fb:app_id',
-        property: 'fb:app_id',
-        content: '2879625188795443'
-      },
-      {
-        hid: 'note:card',
-        property: 'note:card',
-        content: 'summary_large_image'
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: 'https://stopcovid19-kitakyushu.jp/ogp.png'
       }
     ],
     link: [
@@ -108,6 +130,7 @@ const config: Configuration = {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     defaultAssets: {
       icons: false
     }
@@ -154,7 +177,7 @@ const config: Configuration = {
     // hardSource: process.env.NODE_ENV === 'development'
   },
   manifest: {
-    name: '北九州市 新型コロナウイルス感染症対策サイト',
+    name: '北九州市 新型コロナウイルス感染症情報サイト',
     theme_color: '#24448c',
     background_color: '#ffffff',
     display: 'standalone',
@@ -165,19 +188,16 @@ const config: Configuration = {
   generate: {
     fallback: true,
     routes() {
-      const locales = ['ja', 'en', 'zh-cn', 'zh-tw', 'ko', 'ja-basic']
+      const locales = ['ja']
       const pages = [
         '/cards/details-of-confirmed-cases',
         '/cards/details-of-tested-cases',
         '/cards/number-of-confirmed-cases',
-        '/cards/number-of-confirmed-cases-by-municipalities',
         '/cards/attributes-of-confirmed-cases',
         '/cards/number-of-tested',
         '/cards/number-of-inspection-persons',
         '/cards/number-of-reports-to-covid19-telephone-advisory-center',
-        '/cards/number-of-reports-to-covid19-consultation-desk',
-        '/cards/predicted-number-of-toei-subway-passengers',
-        '/cards/agency'
+        '/cards/number-of-tested-breakdown'
       ]
 
       const routes: string[] = []

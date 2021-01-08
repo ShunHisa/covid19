@@ -3,7 +3,7 @@
     <header class="SideNavigation-Header">
       <v-icon
         class="SideNavigation-OpenIcon"
-        :aria-label="$t('サイドメニュー項目を開く')"
+        :aria-label="'サイドメニュー項目を開く'"
         @click="$emit('openNavi', $event)"
       >
         mdi-menu
@@ -13,12 +13,10 @@
           <img
             class="SideNavigation-HeaderLogo"
             src="/logo.svg"
-            :alt="$t('北九州市')"
+            :alt="'北九州市'"
           />
           <div class="SideNavigation-HeaderText">
-            {{ $t('menu/新型コロナウイルス感染症') }}<br />{{
-              $t('menu/対策サイト')
-            }}
+            {{ '新型コロナウイルス感染症' }}<br />{{ '情報サイト' }}
           </div>
         </nuxt-link>
       </h1>
@@ -27,7 +25,7 @@
     <div :class="['SideNavigation-Body', { '-opened': isNaviOpen }]">
       <v-icon
         class="SideNavigation-CloseIcon"
-        :aria-label="$t('サイドメニュー項目を閉じる')"
+        :aria-label="'サイドメニュー項目を閉じる'"
         @click="$emit('closeNavi', $event)"
       >
         mdi-close
@@ -40,7 +38,7 @@
             class="SideNavigation-Language"
           >
             <label class="SideNavigation-LanguageLabel" for="LanguageSelector">
-              {{ $t('多言語対応選択メニュー') }}
+              {{ '多言語対応選択メニュー' }}
             </label>
             <language-selector />
           </div>
@@ -84,6 +82,17 @@
             </picture>
           </a>
           <a
+            href="https://www.youtube.com/user/KitakyuMovieChannel"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="SideNavigation-SocialLink"
+          >
+            <picture>
+              <source srcset="/youtube.webp" type="image/webp" />
+              <img src="/youtube.png" alt="video" />
+            </picture>
+          </a>
+          <a
             href="https://github.com/covid19-kitakyushu/covid19"
             target="_blank"
             rel="noopener noreferrer"
@@ -94,6 +103,70 @@
               <img src="/github.png" alt="GitHub" />
             </picture>
           </a>
+        </div>
+        <div class="SideNavigation-Footer">
+          協力：
+          <br />
+          <div class="SideNavigation-organization">
+            <a
+              href="https://www.city.kitakyushu.lg.jp/"
+              target="_blank"
+              rel="noopener"
+            >
+              <img src="/logo-kitakyushu.png" alt="北九州市" />
+            </a>
+            北九州市
+          </div>
+        </div>
+        <div class="SideNavigation-Footer">
+          <div class="SideNavigation-organization">
+            <a
+              href="https://www.ksrp.or.jp/fais/"
+              target="_blank"
+              rel="noopener"
+            >
+              <img src="/logo-fais.png" alt="FAIS" />
+            </a>
+            北九州産業学術推進機構
+          </div>
+        </div>
+        <div class="SideNavigation-Footer">
+          運営 (50音順)：
+          <br />
+          <div class="SideNavigation-organization">
+            <a
+              href="https://www.facebook.com/CfKTQ/"
+              target="_blank"
+              rel="noopener"
+            >
+              <img src="/logo-code4kitakyushu.png" alt="Code for Kitakyushu" />
+            </a>
+            Code for Kitakyushu
+          </div>
+        </div>
+        <div class="SideNavigation-Footer">
+          <div class="SideNavigation-organization">
+            <a href="https://freudegizmo.com/" target="_blank" rel="noopener">
+              <img src="/logo-freudegizmo.png" alt="フロイデギズモ" />
+            </a>
+            株式会社フロイデギズモ
+          </div>
+        </div>
+        <div class="SideNavigation-Footer">
+          <div class="SideNavigation-organization">
+            <a href="http://www.houyou.co.jp/" target="_blank" rel="noopener">
+              <img src="/logo-houyou.png" alt="Houyou" />
+            </a>
+            Houyou株式会社
+          </div>
+        </div>
+        <div class="SideNavigation-Footer">
+          <div class="SideNavigation-organization">
+            <a href="https://www.lac.co.jp/" target="_blank" rel="noopener">
+              <img src="/logo-lac.png" alt="ラック" />
+            </a>
+            株式会社ラック
+          </div>
         </div>
         <small class="SideNavigation-Copyright">
           {{ $t('このサイトの内容物は') }}
@@ -143,40 +216,40 @@ export default Vue.extend({
       return [
         {
           icon: 'mdi-chart-timeline-variant',
-          title: this.$t('市内の最新感染動向'),
+          title: '市内の最新感染動向',
           link: this.localePath('/')
         },
         {
           icon: 'CovidIcon',
-          title: this.$t('新型コロナウイルス感染症が心配なときに'),
+          title: '新型コロナウイルス感染症が心配なときに',
           link: 'https://www.city.kitakyushu.lg.jp/ho-huku/18901203.html',
           divider: true
         },
         {
           icon: 'mdi-account-multiple',
-          title: this.$t('市民の皆様へ'),
-          link: 'https://www.city.kitakyushu.lg.jp/soumu/k15700105.html'
+          title: '市民の皆様へ',
+          link: 'https://www.city.kitakyushu.lg.jp/kurashi/menu01_00279.html'
         },
         {
           icon: 'mdi-domain',
-          title: this.$t('企業の皆様・はたらく皆様へ'),
+          title: '企業の皆様・はたらく皆様へ',
           link: 'https://www.city.kitakyushu.lg.jp/ho-huku/18901208.html',
           divider: true
         },
         {
-          title: this.$t('北九州市の取り組み'),
+          title: '北九州市の取り組み',
           link: 'https://www.city.kitakyushu.lg.jp/ho-huku/18901211.html'
         },
         {
-          title: this.$t('当サイトについて'),
+          title: '当サイトについて',
           link: this.localePath('/about')
         },
         {
-          title: this.$t('お問い合わせ先一覧'),
-          link: this.localePath('/contacts')
+          title: 'お問い合わせ先一覧',
+          link: 'https://www.city.kitakyushu.lg.jp/soumu/333_00002.html'
         },
         {
-          title: this.$t('北九州市ホームページ'),
+          title: '北九州市ホームページ',
           link: 'https://www.city.kitakyushu.lg.jp/'
         }
       ]
@@ -300,6 +373,7 @@ export default Vue.extend({
 }
 
 .SideNavigation-HeaderLogo {
+  width: 200px;
   @include lessThan($tiny) {
     width: 100px;
   }
@@ -351,6 +425,13 @@ export default Vue.extend({
 
 .SideNavigation-Footer {
   padding-top: 20px;
+}
+
+.SideNavigation-organization {
+  margin-left: 20px;
+  img {
+    margin-right: 10px;
+  }
 }
 
 .SideNavigation-Social {

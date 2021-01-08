@@ -21,7 +21,8 @@ PATHS = {
     "/cards/shinjuku-visitors": (959, 820),
     "/cards/chiyoda-visitors": (959, 820),
     "/cards/shinjuku-st-heatmap": (959, 600),
-    "/cards/tokyo-st-heatmap": (959, 600)
+    "/cards/tokyo-st-heatmap": (959, 600),
+    "/cards/number-of-tested-breakdown": (959, 600)
 }
 
 options = webdriver.ChromeOptions()

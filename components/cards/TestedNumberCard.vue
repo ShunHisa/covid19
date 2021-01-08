@@ -1,14 +1,14 @@
 <template>
   <v-col cols="12" md="6" class="DataCard">
     <time-stacked-bar-chart
-      :title="$t('検査実施件数')"
+      :title="'検査実施件数'"
       :title-id="'number-of-tested'"
       :chart-id="'time-stacked-bar-chart-inspections'"
       :chart-data="inspectionsGraph"
       :date="inspectionsSummary.last_update"
       :items="inspectionsItems"
       :labels="inspectionsLabels"
-      :unit="$t('件.tested')"
+      :unit="'件'"
       :data-labels="inspectionsDataLabels"
       :url="
         'https://ckan.open-governmentdata.org/dataset/401005_kitakyushu_covid19_test_count'
@@ -46,9 +46,9 @@ export default {
       inspectionsSummary.data['陽性確認'],
       allInspectionsArray
     ]
-    const inspectionsItems = [this.$t('陽性患者数'), this.$t('陰性確認者')]
+    const inspectionsItems = ['陽性患者数', '陰性確認者']
     const inspectionsLabels = inspectionsSummary.labels
-    const inspectionsDataLabels = [this.$t('陽性患者数'), this.$t('陰性確認者')]
+    const inspectionsDataLabels = ['陽性患者数', '陰性確認者']
     const data = {
       inspectionsSummary,
       inspectionsGraph,
